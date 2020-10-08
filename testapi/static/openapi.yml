@@ -4,9 +4,9 @@ info:
   description: A test API to show ads
   version: 0.0.1
 
-#servers:
-#  - url: http://api.example.com/v1
-#    description: A phony testserver
+servers:
+  - url: http://localhost:8081/
+    description: A phony testserver
 
 paths:
   /ads:

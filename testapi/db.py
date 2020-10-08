@@ -72,3 +72,4 @@ class Ad(Base):
     subject = Column(String, nullable=False)
     body = Column(String, nullable=False)
     price = Column(Float)
+    email = Column(String, nullable=False)

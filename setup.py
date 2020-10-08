@@ -13,6 +13,7 @@ setup(name='testapi',
       install_requires=[
           'Flask',
           'SQLAlchemy',
-          'Flask-WTF'
+          'flask-cors',
+          'pytest'
       ]
       )

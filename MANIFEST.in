@@ -1,0 +1,2 @@
+recursive-include testapi/templates *
+recursive-include planwebb/static *

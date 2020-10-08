@@ -57,7 +57,7 @@ class DB:
         return os.path.exists(self._path)
 
     def create(self):
-        print('Skapar ny databas {}'.format(self._abspath))
+        print('Create new database {}'.format(self._abspath))
         Base.metadata.create_all(self._engine)
 
     def get_session(self):

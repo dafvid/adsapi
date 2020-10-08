@@ -1,0 +1,8 @@
+- Skapade grundstruktur för Flask-app
+- Gjorde första utkastet till en OpenAPI-definition
+- Genererade stubs från definitionen
+
+FEATURES
+- OpenAPI
+- UUIDs för att inte publicera db-ids
+- Import i ordning

@@ -69,3 +69,17 @@ def ads():
         g.s.commit()
 
         return jsonify(success=True), 201
+
+
+@app.route('/ads/<ad_id>', methods=['GET', 'DELETE'])
+@cross_origin()
+def ads_id(ad_id):
+    if request.method == 'GET':
+        ad = g.s.query(db.Ad).filter(db.Ad.uuid == ad_id).one()
+
+        return jsonify(ad_to_dict(ad))
+    elif request.method == 'DELETE':
+        g.s.query(db.Ad).filter_by(uuid=ad_id).delete()
+        g.s.commit()
+
+        return jsonify(success=True), 201

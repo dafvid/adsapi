@@ -50,7 +50,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/AdId'
       responses:
-        '200':
+        '201':
           description: Ad deleted OK
 
 components:

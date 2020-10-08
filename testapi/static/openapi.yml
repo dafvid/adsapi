@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Blocket Test API
+  description: A test API to show ads
+  version: 0.0.1
+
+#servers:
+#  - url: http://api.example.com/v1
+#    description: A phony testserver
+
+paths:
+  /ads:
+    get:
+      summary: Returns a list of all ads
+      responses:
+        '200':
+          description: A JSON array of ads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ad'
+    post:
+      summary: Inserts an Ad in the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        '200':
+          description: Ad added OK
+
+  /ads/{id}:
+    get:
+      summary: Returns a single ad by id
+      parameters:
+        - $ref: '#/components/parameters/AdId'
+      responses:
+        '200':
+          description: A JSON object of an ad
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+    delete:
+      summary: Deletes an ad from the database
+      parameters:
+        - $ref: '#/components/parameters/AdId'
+      responses:
+        '200':
+          description: Ad deleted OK
+
+components:
+  parameters:
+    AdId:
+      in: path
+      name: id
+      required: true
+      description: The ad id
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Ad:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        subject:
+          type: string
+        body:
+          type: string
+        price:
+          type: number
+          format: float
+        email:
+          type: string
+          format: email
+      required:
+        - subject
+        - body
+        - email

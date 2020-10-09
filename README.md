@@ -7,7 +7,7 @@ View the `openapi.yaml` in [Swagger Editor](https://editor.swagger.io/?url=https
 # Usage
 Tested on Lubuntu 18.04
 
-```sh
+```
 git clone https://github.com/dafvid/adsapi.git
 cd adsapi
 python3 -m venv .venv

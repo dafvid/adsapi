@@ -14,3 +14,8 @@ FEATURES
 - Import i ordning
 - SQLAlchemy för database
 - Flask för web
+
+TODO
+- Någon sorts Auth
+- Se till att inga errors syns i prod
+- Möjlighet att uppdatera Ad med PUT

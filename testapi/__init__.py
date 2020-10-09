@@ -38,7 +38,7 @@ def teardown_appcontext(error):
         g.s.close()
 
 
-# wraps HTTPEx
+# wraps HTTPExceptions in JSON
 # from https://flask.palletsprojects.com/en/master/errorhandling/
 @app.errorhandler(HTTPException)
 def handle_exception(e):
@@ -55,11 +55,13 @@ def handle_exception(e):
     return response
 
 
+# the index(root) route just returns the API version string
 @app.route('/')
 def index():
     return 'Ad API v0.1'
 
 
+# serve the specification from the root rather than from /static
 @app.route('/openapi.yaml')
 @cross_origin()
 def openapi():
@@ -89,11 +91,12 @@ def ad_from_dict(ad_dict):
     return ad
 
 
+# route to list all ads or add a new ad
 @app.route('/ads', methods=['GET', 'POST'])
 @cross_origin()
 def ads():
     client_errors = list()
-    server_errors = list()
+    # GET verb returns a list of ads
     if request.method == 'GET':
         # check for invalid parameters
         for k in request.args.keys():
@@ -112,7 +115,10 @@ def ads():
         if client_errors:
             return abort(400, ', '.join(client_errors))
 
+        # query all ads from the db
         db_ad_list = g.s.query(db.Ad)
+
+        # sort the ads by the sort and order parameters
         if sort == 'created':
             if order == 'asc':
                 db_ad_list = db_ad_list.order_by(db.Ad.created)
@@ -125,44 +131,58 @@ def ads():
                 db_ad_list = db_ad_list.order_by(desc(db.Ad.price))
 
         return_ad_list = list()
+        # convert all items to dicts for JSON-conversion
         for ad in db_ad_list.all():
             return_ad_list.append(ad_to_dict(ad))
 
+        # return the list as JSON
         return jsonify(return_ad_list)
+    # POST verb create a new ad
     elif request.method == 'POST':
         client_errors = list()
         ad_dict = request.json
+
+        # check for required keys
         keys = ['subject', 'body', 'email']
         for k in keys:
             if k not in ad_dict:
                 client_errors.append("Missing '{}' in body".format(k))
+
+        # validate email
         try:
             validate_email(ad_dict['email'])
         except EmailNotValidError as e:
             client_errors.append(str(e))
+
+        # if price is set then it has to be > 0
         if 'price' in ad_dict:
             if ad_dict['price'] < 0:
                 client_errors.append('price must be positive or zero')
 
+        # abort with code 400 if any errors
         if client_errors:
             abort(400, ', '.join(client_errors))
 
+        # convert JSON dict to DB Ad
         ad = ad_from_dict(ad_dict)
-        ad.uuid = uuid4()
+        ad.uuid = uuid4()  # generate UUID
         g.s.add(ad)
         g.s.commit()
 
         return jsonify(success=True), 201
 
 
+# get a specific ad or delete one
 @app.route('/ads/<ad_id>', methods=['GET', 'DELETE'])
 @cross_origin()
 def ads_id(ad_id):
     if request.method == 'GET':
+        # query db for Ad based on UUID
         ad = g.s.query(db.Ad).filter(db.Ad.uuid == ad_id).one()
 
         return jsonify(ad_to_dict(ad))
     elif request.method == 'DELETE':
+        # delete Ad from DB based on UUID
         g.s.query(db.Ad).filter_by(uuid=ad_id).delete()
         g.s.commit()
 

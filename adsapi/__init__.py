@@ -14,7 +14,7 @@ from . import db
 __version__ = '201008.1'
 
 logging.basicConfig()
-_log = logging.getLogger('testapi')
+_log = logging.getLogger('adsapi')
 _log.setLevel(logging.DEBUG)
 
 app = Flask(__name__)

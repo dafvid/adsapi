@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from testapi import app
+from adsapi import app
 
 
 if __name__ == '__main__':

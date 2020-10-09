@@ -1,6 +1,6 @@
 import pytest
 
-from testapi import app
+from adsapi import app
 
 
 @pytest.fixture

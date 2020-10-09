@@ -1,9 +1,11 @@
 - Skapade grundstruktur för Flask-app
 - Gjorde första utkastet till en OpenAPI-definition
 - Genererade stubs från definitionen
--- Känds lite osportsligt att generera all kod
+-- Kändes lite osportsligt att generera kod
 - Snodde lite kod för definition av UUID i sqlite
 - Angav localhost som server för att kunna testa via swagger editor
+- Funktioner för att konvertera mellan dict och objekt
+-
 
 
 FEATURES

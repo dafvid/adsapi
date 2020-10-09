@@ -37,11 +37,12 @@ def ad_to_dict(ad):
         'subject': ad.subject,
         'body': ad.body,
         'price': ad.price,
-        'email': ad.email
+        'email': ad.email,
+        'created': ad.created.isoformat(timespec='seconds')+'Z'  # timezonehack
     }
 
 
-# Converts a dict (from JSON) to a Ad DB object
+# Converts a dict (from JSON) to an Ad DB object
 def ad_from_dict(ad_dict):
     ad = db.Ad()
     ad.subject = ad_dict['subject']

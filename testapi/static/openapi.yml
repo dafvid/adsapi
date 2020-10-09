@@ -82,6 +82,10 @@ components:
         email:
           type: string
           format: email
+        created:
+          type: string
+          format: date-time
+          readOnly: true
       required:
         - subject
         - body

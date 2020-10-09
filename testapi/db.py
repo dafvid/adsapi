@@ -1,8 +1,9 @@
 import logging
 import os
 import uuid
+from datetime import datetime
 
-from sqlalchemy import create_engine, Integer, Column, String, Float
+from sqlalchemy import create_engine, Integer, Column, String, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import TypeDecorator, CHAR
@@ -73,3 +74,4 @@ class Ad(Base):
     body = Column(String, nullable=False)
     price = Column(Float)
     email = Column(String, nullable=False)
+    created = Column(DateTime, nullable=False, default=datetime.now)

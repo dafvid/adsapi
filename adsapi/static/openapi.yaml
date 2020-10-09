@@ -85,14 +85,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Ad'
+        '404':
+          description: Ad not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       summary: Deletes an ad from the database
       parameters:
         - $ref: '#/components/parameters/AdId'
       responses:
-        '201':
-          $ref: '#/components/schemas/Success'
-
+        '204':
+          description: Ad deleted OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '404':
+          description: Ad not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   parameters:
     AdId:

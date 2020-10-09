@@ -176,14 +176,16 @@ def ads():
 @app.route('/ads/<ad_id>', methods=['GET', 'DELETE'])
 @cross_origin()
 def ads_id(ad_id):
-    if request.method == 'GET':
-        # query db for Ad based on UUID
-        ad = g.s.query(db.Ad).filter(db.Ad.uuid == ad_id).one()
+    # query db for Ad based on UUID
+    ad = g.s.query(db.Ad).filter(db.Ad.uuid == ad_id).first()
+    if not ad:
+        abort(404, 'Unknown ad')
 
+    if request.method == 'GET':
         return jsonify(ad_to_dict(ad))
     elif request.method == 'DELETE':
         # delete Ad from DB based on UUID
-        g.s.query(db.Ad).filter_by(uuid=ad_id).delete()
+        g.s.delete(ad)
         g.s.commit()
 
         return jsonify(success=True), 204

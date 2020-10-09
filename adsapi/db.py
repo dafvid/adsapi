@@ -10,7 +10,7 @@ from sqlalchemy.types import TypeDecorator, CHAR
 
 Base = declarative_base()
 
-_log = logging.getLogger('budgetweb.db')
+_log = logging.getLogger('adsapi.db')
 _log.setLevel(logging.DEBUG)
 
 

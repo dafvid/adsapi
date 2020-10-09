@@ -12,6 +12,26 @@ paths:
   /ads:
     get:
       summary: Returns a list of all ads
+      parameters:
+        - in: query
+          name: sort
+          required: false
+          schema:
+            type: string
+            enum:
+              - price
+              - created
+            default: created
+          description: The value to sort the ads by. Define order with `order`.
+        - in: query
+          name: order
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+          description: The order to sort the results
       responses:
         '200':
           description: A JSON array of ads

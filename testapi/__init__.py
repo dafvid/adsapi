@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from flask import g, Flask, request, jsonify
 from flask_cors import cross_origin
+from sqlalchemy import desc
 
 from . import db
 
@@ -56,9 +57,24 @@ def ad_from_dict(ad_dict):
 @cross_origin()
 def ads():
     if request.method == 'GET':
+        sort = request.args.get('sort', 'created')
+        assert sort in ['created', 'price']
+        order = request.args.get('order', 'desc')
+        assert order in ['asc', 'desc']
         db_ad_list = g.s.query(db.Ad)
+        if sort == 'created':
+            if order == 'asc':
+                db_ad_list = db_ad_list.order_by(db.Ad.created)
+            else:
+                db_ad_list = db_ad_list.order_by(desc(db.Ad.created))
+        elif sort == 'price':
+            if order == 'asc':
+                db_ad_list = db_ad_list.order_by(db.Ad.price)
+            else:
+                db_ad_list = db_ad_list.order_by(desc(db.Ad.price))
+
         return_ad_list = list()
-        for ad in db_ad_list:
+        for ad in db_ad_list.all():
             return_ad_list.append(ad_to_dict(ad))
 
         return jsonify(return_ad_list)

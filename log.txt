@@ -5,7 +5,7 @@
 - Snodde lite kod för definition av UUID i sqlite
 - Angav localhost som server för att kunna testa via swagger editor
 - Funktioner för att konvertera mellan dict och objekt
--
+- Tillgång till lokal miljö externt
 
 
 FEATURES

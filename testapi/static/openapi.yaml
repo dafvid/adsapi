@@ -1,12 +1,14 @@
 openapi: 3.0.0
 info:
-  title: Blocket Test API
+  title: Test API
   description: A test API to show ads
   version: 0.0.1
 
 servers:
+  - url: https://macken.dafnet.se/david/
+    description: External testserver
   - url: http://localhost:8081/
-    description: A phony testserver
+    description: Local testserver
 
 paths:
   /ads:
@@ -31,6 +33,7 @@ paths:
             enum:
               - asc
               - desc
+            default: desc
           description: The order to sort the results
       responses:
         '200':
@@ -41,6 +44,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ad'
+        '400':
+          description: Error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
     post:
       summary: Inserts an Ad in the database
       requestBody:
@@ -50,8 +60,18 @@ paths:
             schema:
               $ref: '#/components/schemas/Ad'
       responses:
-        '200':
+        '201':
           description: Ad added OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /ads/{id}:
     get:
@@ -71,7 +91,7 @@ paths:
         - $ref: '#/components/parameters/AdId'
       responses:
         '201':
-          description: Ad deleted OK
+          $ref: '#/components/schemas/Success'
 
 components:
   parameters:
@@ -99,6 +119,7 @@ components:
         price:
           type: number
           format: float
+          minimum: 0
         email:
           type: string
           format: email
@@ -110,3 +131,17 @@ components:
         - subject
         - body
         - email
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean

@@ -14,6 +14,7 @@ setup(name='testapi',
           'Flask',
           'SQLAlchemy',
           'flask-cors',
+          'email_validator',
           'pytest'
       ]
       )

@@ -148,6 +148,10 @@ def ads():
             if k not in ad_dict:
                 client_errors.append("Missing '{}' in body".format(k))
 
+        # abort with code 400 if any errors
+        if client_errors:
+            abort(400, ', '.join(client_errors))
+
         # validate email
         try:
             validate_email(ad_dict['email'])
